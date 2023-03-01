@@ -1,0 +1,15 @@
+const allowedRoles = require('../config/rolesArray')
+
+const verifyRoles = (...allowRoles)=>{
+    return (req,res,next)=>{
+        if(!req.roles) return res.sendStatus(401)
+        const rolesArray = [...allowRoles]
+        console.log(req.roles)
+        console.log(rolesArray)
+        const result = req.roles.map((role)=> rolesArray.includes(role)).find(val => val === true)
+        if(!result) return res.sendStatus(403)
+        next()
+    }
+}
+
+module.exports = verifyRoles
